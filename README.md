@@ -41,6 +41,7 @@ node dist/index.js -d <delivery_file> -u <usage_file> -i <inventory_file>
 - `-u, --usage <path>`: Path to usage file (.csv)
 - `-i, --inventory <path>`: Path to inventory file (.json)
 - `-h, --help`: Display help information
+- `-v, --verbose`: Output verbose debugging info helpful in troubleshooting and debugging
 
 ## Sample Output
 ```
