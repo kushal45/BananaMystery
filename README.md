@@ -61,6 +61,18 @@ node dist/index.js -d <delivery_file> -u <usage_file> -i <inventory_file>
 [INFO] Reconciliation complete.
 ```
 
+## Testing
+The project includes a comprehensive test suite using Jest, covering both unit tests for individual components and integration tests for the CLI.
+
+To run the tests:
+```bash
+npm test
+```
+
+This will execute:
+- **Unit Tests**: Verifying parsers, reconciler logic, and error handling.
+- **Integration Tests**: Spawning the CLI process to verify end-to-end functionality with real files.
+
 ## Design Decisions
 - **Hexagonal Architecture**: Separates the core business logic (`src/domain`) from the external world (`src/adapters`). This makes the system easy to test and adaptable to new input sources or output formats.
 - **TypeScript**: Used for type safety and better developer experience. Strict mode is enabled.
