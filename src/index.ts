@@ -33,7 +33,7 @@ program
       const usageProvider = new FileUsageProvider(usagePath, logger);
       const inventoryProvider = new FileInventoryProvider(inventoryPath, logger);
       
-      const presenter = new ConsoleReportPresenter();
+      const presenter = new ConsoleReportPresenter(logger);
       const reconciler = new Reconciler();
       
       const useCase = new GenerateDiscrepancyReport(

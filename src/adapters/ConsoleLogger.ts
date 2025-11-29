@@ -9,11 +9,11 @@ export class ConsoleLogger implements Logger {
   constructor(private readonly level: LogLevel) {}
 
   info(message: string): void {
-    console.error(`[INFO] ${message}`);
+    console.log(`[INFO] ${message}`);
   }
 
   warn(message: string): void {
-    console.error(`[WARN] ${message}`);
+    console.warn(`[WARN] ${message}`);
   }
 
   error(message: string): void {
@@ -22,7 +22,7 @@ export class ConsoleLogger implements Logger {
 
   debug(message: string): void {
     if (this.level === LogLevel.DEBUG) {
-      console.error(`[DEBUG] ${message}`);
+      console.debug(`[DEBUG] ${message}`);
     }
   }
 }

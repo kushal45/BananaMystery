@@ -1,25 +1,32 @@
 import { ReportPresenter } from '../application/ReportPresenter';
+import { Logger } from '../application/ports';
 import { ReconciliationResult, AuditStatus } from '../domain/types';
 
 export class ConsoleReportPresenter implements ReportPresenter {
+  constructor(private readonly logger: Logger) {}
+
   present(result: ReconciliationResult): void {
-    console.log('Zoo Food Audit Report');
-    console.log('=====================');
-    console.log('');
+    this.logger.debug('Presenting discrepancy report to console');
+    this.logger.info('Zoo Food Audit Report');
+    this.logger.info('=====================');
+    this.logger.info('');
 
     const sortedRecords = [...result.records].sort((a, b) => a.item.localeCompare(b.item));
 
     for (const record of sortedRecords) {
-      if (record.status === AuditStatus.OK) {
-        console.log(`${record.item}: OK`);
-      } else if (record.status === AuditStatus.DISCREPANCY) {
-        console.log(`${record.item}: DISCREPANCY ${record.difference > 0 ? '+' : ''}${record.difference} (expected: ${record.expected}, actual: ${record.actual})`);
-      } else {
-        console.log(`${record.item}: UNKNOWN (missing data)`);
+      let statusLine = `${record.item}: ${record.status}`;
+      
+      if (record.status === AuditStatus.DISCREPANCY) {
+        statusLine += ` ${record.difference} (expected: ${record.expected}, actual: ${record.actual})`;
+      } else if (record.status === AuditStatus.UNKNOWN) {
+        statusLine += ` (missing data)`;
       }
+
+      this.logger.info(statusLine);
     }
 
-    console.log('');
-    console.log(`Summary: ${result.summary}`);
+    this.logger.info('');
+    this.logger.info(`Summary: ${result.summary}`);
+    this.logger.debug('Report presentation complete');
   }
 }

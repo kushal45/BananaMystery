@@ -45,17 +45,20 @@ node dist/index.js -d <delivery_file> -u <usage_file> -i <inventory_file>
 
 ## Sample Output
 ```
-Zoo Food Audit Report
-=====================
-
-banana: DISCREPANCY -7 (expected: 25, actual: 18)
-carrots: OK
-fish: OK
-hay: OK
-lettuce: UNKNOWN (missing data)
-meat: OK
-
-Summary: 1 discrepancy found
+[INFO] Starting reconciliation process...
+[WARN] Invalid non-numeric value '<>' for item 'lettuce' in delivery file
+[INFO] Zoo Food Audit Report
+[INFO] =====================
+[INFO] 
+[INFO] banana: DISCREPANCY -7 (expected: 25, actual: 18)
+[INFO] carrots: OK
+[INFO] fish: OK
+[INFO] hay: OK
+[INFO] lettuce: UNKNOWN (missing data)
+[INFO] meat: OK
+[INFO] 
+[INFO] Summary: 1 discrepancy found
+[INFO] Reconciliation complete.
 ```
 
 ## Design Decisions
