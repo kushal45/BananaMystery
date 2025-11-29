@@ -7,9 +7,15 @@ describe('FileDeliveryProvider', () => {
   const mockFs = fs as jest.Mocked<typeof fs>;
   const filePath = 'dummy.txt';
   let provider: FileDeliveryProvider;
+  const mockLogger = {
+    info: jest.fn(),
+    warn: jest.fn(),
+    error: jest.fn(),
+    debug: jest.fn()
+  };
 
   beforeEach(() => {
-    provider = new FileDeliveryProvider(filePath);
+    provider = new FileDeliveryProvider(filePath, mockLogger);
     jest.clearAllMocks();
   });
 

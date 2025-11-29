@@ -7,9 +7,15 @@ describe('FileInventoryProvider', () => {
   const mockFs = fs as jest.Mocked<typeof fs>;
   const filePath = 'dummy.json';
   let provider: FileInventoryProvider;
+  const mockLogger = {
+    info: jest.fn(),
+    warn: jest.fn(),
+    error: jest.fn(),
+    debug: jest.fn()
+  };
 
   beforeEach(() => {
-    provider = new FileInventoryProvider(filePath);
+    provider = new FileInventoryProvider(filePath, mockLogger);
     jest.clearAllMocks();
   });
 

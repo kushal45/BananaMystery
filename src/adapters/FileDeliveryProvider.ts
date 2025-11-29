@@ -1,11 +1,15 @@
-import { DeliveryProvider } from '../application/ports';
+import { DeliveryProvider, Logger } from '../application/ports';
 import { InventoryRecord } from '../domain/types';
 import * as fs from 'fs/promises';
 
 export class FileDeliveryProvider implements DeliveryProvider {
-  constructor(private readonly filePath: string) {}
+  constructor(
+    private readonly filePath: string,
+    private readonly logger: Logger
+  ) {}
 
   async getDelivery(): Promise<InventoryRecord[]> {
+    this.logger.debug(`Reading delivery file: ${this.filePath}`);
     const content = await fs.readFile(this.filePath, 'utf-8');
     const lines = content.split('\n');
     const records: InventoryRecord[] = [];
@@ -25,22 +29,20 @@ export class FileDeliveryProvider implements DeliveryProvider {
 
       // Handle empty or invalid
       if (valueStr === '') {
-        // Spec: "The delivery.txt file may contain invalid values (empty or quoted)"
-        // If empty, we can't parse a quantity. 
-        // We should probably treat it as NaN to indicate issue, or skip?
-        // If we skip, we assume 0 expected.
-        // If we use NaN, we can propagate "UNKNOWN".
+        this.logger.warn(`Invalid empty value for item '${key}' in delivery file`);
         records.push({ item: key, quantity: NaN });
         continue;
       }
 
       const quantity = parseInt(valueStr, 10);
       if (isNaN(quantity)) {
+         this.logger.warn(`Invalid non-numeric value '${valueStr}' for item '${key}' in delivery file`);
          records.push({ item: key, quantity: NaN });
       } else {
         records.push({ item: key, quantity });
       }
     }
+    this.logger.debug(`Parsed ${records.length} delivery records`);
     return records;
   }
 }

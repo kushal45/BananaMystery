@@ -7,9 +7,15 @@ describe('FileUsageProvider', () => {
   const mockFs = fs as jest.Mocked<typeof fs>;
   const filePath = 'dummy.csv';
   let provider: FileUsageProvider;
+  const mockLogger = {
+    info: jest.fn(),
+    warn: jest.fn(),
+    error: jest.fn(),
+    debug: jest.fn()
+  };
 
   beforeEach(() => {
-    provider = new FileUsageProvider(filePath);
+    provider = new FileUsageProvider(filePath, mockLogger);
     jest.clearAllMocks();
   });
 
